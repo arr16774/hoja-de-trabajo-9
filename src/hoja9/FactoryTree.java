@@ -5,7 +5,7 @@ public class FactoryTree {
 		
 	}
 	
-	public iTree choose(String comp, String lista){
+	public iTree choose(String comp){
 		switch(comp){
 		case "1":
 			return new TwoThreeTree();

@@ -10,8 +10,8 @@ import javax.swing.JFileChooser;
 import com.sun.nio.sctp.Association;
 
 public class Texto {
-	FactoryTree facTree = new FactoryTree();
-	TwoThreeTree<String,String> b = new TwoThreeTree<String, String>();
+	FactoryTree factory = new FactoryTree();
+	iTree<String,String> b;
 	public void s() throws IOException {
 		String a = "";
 		BufferedReader txt = new BufferedReader(new FileReader("freedict-eng-spa.dic"));
@@ -22,11 +22,22 @@ public class Texto {
 			}
 		}
 	
+	public void setTree(String seleccion){
+		b=factory.choose(seleccion);
+		if (b instanceof SplayBST){
+			System.out.println("BST");
+		}else if (b instanceof TwoThreeTree){
+			System.out.println("2-3 Three");
+		}
+		
+	}
+	
 	public void llenar(String palabra){
 		String cadena = palabra.replaceAll(" ", ",");
 		cadena = cadena.replaceAll("\t", ",");
 		String palabras[]= cadena.split(",");
 		b.put(palabras[0], palabras[1]);
+		//System.out.println(".");
 	}
 	public String lectura() throws IOException{
 		String a = ""; 
@@ -40,6 +51,7 @@ public class Texto {
 				a=a+" "+pal;
 			}
 			//String w=tree.find(new Association<String, String>("yes","si")).toString();
+			System.out.println("El archivo original es: " + a);
 			return a;
 		}
 		return a;

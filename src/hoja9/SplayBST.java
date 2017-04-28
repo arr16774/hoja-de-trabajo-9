@@ -13,7 +13,7 @@ package hoja9;
  *
  ******************************************************************************/
 
-public class SplayBST<Key extends Comparable<Key>, Value>  {
+public class SplayBST<Key extends Comparable<Key>, Value> implements iTree{
 
     private Node root;   // root of the BST
 
@@ -29,57 +29,10 @@ public class SplayBST<Key extends Comparable<Key>, Value>  {
         }
     }
 
-    public boolean contains(Key key) {
-        return get(key) != null;
-    }
-
-    // return value associated with the given key
-    // if no such value, return null
-    public Value get(Key key) {
-        root = splay(root, key);
-        int cmp = key.compareTo(root.key);
-        if (cmp == 0) return root.value;
-        else          return null;
-    }    
 
    /***************************************************************************
     *  Splay tree insertion.
     ***************************************************************************/
-    public void put(Key key, Value value) {
-        // splay key to root
-        if (root == null) {
-            root = new Node(key, value);
-            return;
-        }
-        
-        root = splay(root, key);
-
-        int cmp = key.compareTo(root.key);
-        
-        // Insert new node at root
-        if (cmp < 0) {
-            Node n = new Node(key, value);
-            n.left = root.left;
-            n.right = root;
-            root.left = null;
-            root = n;
-        }
-
-        // Insert new node at root
-        else if (cmp > 0) {
-            Node n = new Node(key, value);
-            n.right = root.right;
-            n.left = root;
-            root.right = null;
-            root = n;
-        }
-
-        // It was a duplicate key. Simply replace the value
-        else {
-            root.value = value;
-        }
-
-    }
     
    /***************************************************************************
     *  Splay tree deletion.
@@ -207,4 +160,58 @@ public class SplayBST<Key extends Comparable<Key>, Value>  {
         x.left = h;
         return x;
     }
+
+	@Override
+	public boolean contains(Comparable item) {
+		return get((Key)item) != null;
+	}
+
+	@Override
+	public Comparable get(Comparable item) {
+		Key key = (Key) item;
+		root = splay(root, key);
+        int cmp = key.compareTo(root.key);
+        if (cmp == 0) return (Comparable)root.value;
+        else          return null;
+	}
+
+	@Override
+	public void put(Comparable item, Object values) {
+		// TODO Auto-generated method stub
+		Key key = (Key) item;
+		Value value = (Value) values;
+		// splay key to root
+        if (root == null) {
+            root = new Node(key, value);
+            return;
+        }
+        
+        root = splay(root, key);
+
+        int cmp = key.compareTo(root.key);
+        
+        // Insert new node at root
+        if (cmp < 0) {
+            Node n = new Node(key, value);
+            n.left = root.left;
+            n.right = root;
+            root.left = null;
+            root = n;
+        }
+
+        // Insert new node at root
+        else if (cmp > 0) {
+            Node n = new Node(key, value);
+            n.right = root.right;
+            n.left = root;
+            root.right = null;
+            root = n;
+        }
+
+        // It was a duplicate key. Simply replace the value
+        else {
+            root.value = value;
+        }
+		
+	}
 }  
